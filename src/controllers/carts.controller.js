@@ -59,7 +59,10 @@ class CartController {
                 cart.products.push({product: pid, quantity: 1})
             }
             await cartServices.updateCart(cart._id, cart);
+
+            res.json(cart)
             res.redirect("/products");
+
         } catch (error) {
             res.status(500).json({error: error.message});
         }
@@ -68,6 +71,7 @@ class CartController {
     async updateCart (req,res) {
         const { cid } = req.params;
         const update = req.body;
+
         try {
             let cart = await cartServices.getCartById(cid);
             if (!cart) {
@@ -94,7 +98,12 @@ class CartController {
                     res.json(`el producto ${prod._id}, el stock maximo es de ${product.stock}`);
                 }
             }
-            cart = await cartServices.updateCart(cid, products);
+
+            cart = {
+                ...cart,
+                products: products
+            }
+            await cartServices.updateCart(cid, cart);
             res.json(cart);
         } catch (error) {
             res.status(500).json({error: error.message});
