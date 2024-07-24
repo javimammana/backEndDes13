@@ -1,6 +1,5 @@
 import express from "express";
 import exphbs from "express-handlebars";
-// import { Server } from "socket.io";
 import multer from "multer";
 import cookieParser from "cookie-parser";
 import session from "express-session";
@@ -94,3 +93,22 @@ const httpServer = app.listen(PORT, () => console.log(`Server listening on port 
 //Socket
 import SocketManager from "./sockets/socketManager.js";
 new SocketManager(httpServer);
+
+//DOCUMENTACION
+
+import swaggerJSDoc from "swagger-jsdoc";
+import swaggerUIExpress from "swagger-ui-express";
+
+const swaggerOptions = {
+    definition: {
+        openapi: "3.0.1",
+        info: {
+            title: "Documentacion de e-commerce",
+            description: "Tienda virtual de prueba"
+        }
+    },
+    apis: ["./src/docs/**/*.yaml"]
+}
+
+const specs = swaggerJSDoc(swaggerOptions);
+app.use("/apidocs", swaggerUIExpress.serve, swaggerUIExpress.setup(specs));

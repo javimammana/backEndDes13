@@ -69,7 +69,7 @@ class ProductController {
             const page = req.query.page || 1;
             const products = await productServices.getProductsPaginate(filtro, {limit: limit, page: page, sort: sort});
 
-            res.json({
+            res.json({products,
                 status:"success",
                 payload: products.totalDocs,
                 totalPages: products.totalPages,
@@ -117,6 +117,7 @@ class ProductController {
 
             if (!product) {
                 req.logger.fatal("(CONTROLLER) - El producto no existe");
+                res.status(404).send("Producto no encontrado")
                 throw CustomError.crearError({
                     nombre: "Producto inexistente",
                     causa: infoErrorItem(pid),
@@ -142,6 +143,7 @@ class ProductController {
             }
 
             req.logger.info("(CONTROLLER) - Se agrego usuario para ser notificado de stock");
+            res.json("Se agrega usuario para ser notificado")
             res.redirect("/products")
 
         } catch (error) {
@@ -175,6 +177,7 @@ class ProductController {
             console.log(userNvo)
 
             req.logger.info("(CONTROLLER) - Se agrego producto a favoritos");
+            res.json("Se agrega producto a favorito")
             res.redirect("/products")
         } catch (error) {
             req.logger.error("(CONTROLLER) - Error al marcar favorito el producto")
