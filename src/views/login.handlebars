@@ -11,6 +11,9 @@
         <img class="ico" src="/img/noVisible.png" id="loginPass-ico" onclick="pass()" alt="">
     </div>
     <button class="lgFormBtn" type="submit">Ingresar</button>
+    {{#if error}}
+        <p>{{error}}</p>
+    {{/if}}
 </form>
     <p><a class="loginLink" href="/resetPassword">No recuerdo mi Contraseña</a></p>
     <br>

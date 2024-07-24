@@ -94,12 +94,21 @@ class UserController {
             const user = await userServices.getUserByEmail({email: email});
             if (!user) {
                 req.logger.error("(CRONTOLLER) - Usuario o contraseña incorrectos");
-                //console.log ("Usuario no existe");
+                return res.render ("login", {
+                    error: "Usuario o contraseña invalidos",
+                    title: "Login",
+                    fileCss: "style.css"
+                })
                 return done(null, false);
             }
             if (!isValidPassword(password, user)) {
                 //console.log("Contraseña incorrecta");
                 req.logger.error("(CRONTOLLER) - Usuario o contraseña incorrectos");
+                return res.render ("login", {
+                    error: "Usuario o contraseña invalidos",
+                    title: "Login",
+                    fileCss: "style.css"
+                })
                 return done(null, false);
             }
 
