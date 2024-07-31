@@ -16,8 +16,8 @@ class ViewController {
             res.render("home", {
                 title: "Productos",
                 fileCss: "style.css",
-                products,
-                user
+                // products,
+                // user
             });
         } catch (error) {
             res.status(500).json({error: "Error del servicor al Renderizar Home"});
@@ -31,11 +31,22 @@ class ViewController {
             }
             const user = req.user
             // console.log(user);
-            const limit = req.query.limit || 10;
-            const filtro = req.query.query ? {category: req.query.query} : {};
-            const sort = req.query.sort ? {price: Number(req.query.sort)} : {};
-            const page = req.query.page || 1;
-            const products = await productServices.getProductsPaginate(filtro, {limit: limit, page: page, sort: sort});
+
+            const coso = {
+                ...req.query,
+                limit: req.query.limit || 10,
+                page: req.query.page || 1
+            }
+
+            const limit = coso.limit;
+            const filtro = coso.query;
+            const sort = coso.sort;
+            // const page = req.query.page || 1;
+            // const products = await productServices.getProductsPaginate(filtro, {limit: limit, page: page, sort: sort});
+
+            const products = await productServices.getProductsPaginate(coso);
+
+            // console.log(coso)
             const userFav = await userServices.getUserByEmail({email: user.email});
     
             let elementos = products.docs.map(prod => {
@@ -68,7 +79,7 @@ class ViewController {
             });
     
         } catch (error) {
-            res.status(500).json({error: "Error del servicor al Renderizar ProductosPaginate"});
+            res.status(500).json({error: "Error del servicor al Renderizar ProductosPaginate" + error});
         }
     }
 

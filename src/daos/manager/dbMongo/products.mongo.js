@@ -22,7 +22,7 @@ class ProductDao {
 
     async getProductsPaginate (paginate) {
         try {
-            const products = await ProductModel.paginate(paginate);
+            const products = await ProductModel.paginate(paginate.query ? {category: paginate.query} : {}, {limit: paginate.limit, page: paginate.page, sort: paginate.sort ? {price: Number(paginate.sort)} : {}});
             return products;
         } catch (error) {
             throw new Error ("(DAO) Error al obtener todos los productos paginados");

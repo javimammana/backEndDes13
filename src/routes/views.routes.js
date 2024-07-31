@@ -10,7 +10,7 @@ const viewController = new ViewController();
 
 router.get("/", viewController.viewHome);
 router.get("/products", passport.authenticate("jwt", {session: false, failureRedirect: "/login"}), checkRole(['USER', 'PREMIUM']), viewController.viewProductsPaginate);
-router.get ("/product/:pid", passport.authenticate("jwt", {session: false, failureRedirect: "/login"}), checkRole(['USER', 'PREMIUM']), viewController.viewProductById);
+router.get("/product/:pid", passport.authenticate("jwt", {session: false, failureRedirect: "/login"}), checkRole(['USER', 'PREMIUM']), viewController.viewProductById);
 router.get("/carts", passport.authenticate("jwt", {session: false, failureRedirect: "/login"}), checkRole(['USER', 'PREMIUM']), viewController.viewCart);
 router.get("/favorites", passport.authenticate("jwt", {session: false, failureRedirect: "/login"}), checkRole(['USER', 'PREMIUM']), viewController.viewFavorite);
 router.get("/users", passport.authenticate("jwt", {session: false, failureRedirect: "/login"}), checkRole(['ADMIN']), viewController.viewUsers);

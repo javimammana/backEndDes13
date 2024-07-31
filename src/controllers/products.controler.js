@@ -63,11 +63,22 @@ class ProductController {
 
     async getProductsPaginate (req, res) {
         try {
-            const limit = req.query.limit || 10;
-            const filtro = req.query.query ? {category: req.query.query} : {};
-            const sort = req.query.sort ? {price: Number(req.query.sort)} : {};
-            const page = req.query.page || 1;
-            const products = await productServices.getProductsPaginate(filtro, {limit: limit, page: page, sort: sort});
+
+            const coso = {
+                ...req.query,
+                limit: req.query.limit || 10,
+                page: req.query.page || 1
+            }
+            // const limit = req.query.limit || 10;
+            // const filtro = req.query.query ? {category: req.query.query} : {};
+            // const sort = req.query.sort ? {price: Number(req.query.sort)} : {};
+            // const page = req.query.page || 1;
+            // const products = await productServices.getProductsPaginate(filtro, {limit: limit, page: page, sort: sort});
+
+            const products = await productServices.getProductsPaginate(coso);
+
+            console.log(products)
+
 
             res.json({products,
                 status:"success",
